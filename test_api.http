@@ -1,0 +1,31 @@
+### Регистрация нового пользователя
+POST http://127.0.0.1:8000/api/register/
+Content-Type: application/json
+
+{
+    "username": "testuser",
+    "email": "test@example.com",
+    "password": "StrongPass123!",
+    "password2": "StrongPass123!"
+}
+
+### Вход по email
+POST http://127.0.0.1:8000/api/login/
+Content-Type: application/json
+
+{
+    "email": "test@example.com",
+    "password": "StrongPass123!"
+}
+
+### Получение профиля (нужен токен)
+GET http://127.0.0.1:8000/api/profile/
+Authorization: Bearer <ваш_access_токен>
+
+### Обновление токена
+POST http://127.0.0.1:8000/api/token/refresh/
+Content-Type: application/json
+
+{
+    "refresh": "<ваш_refresh_токен>"
+}python manage.py runserver
