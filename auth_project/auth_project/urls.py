@@ -20,23 +20,18 @@ schema_view = get_schema_view(
 )
 
 urlpatterns = [
-    # Главная страница - фронтенд
     path('', TemplateView.as_view(template_name='index.html'), name='home'),
     
-    # Админка
     path('admin/', admin.site.urls),
     
-    # API
     path('api/', include('accounts.urls')),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     
-    # Документация
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 ]
 
-# Специальные маршруты для статических файлов фронтенда
-# Эти пути должны соответствовать путям в вашем HTML
+
 urlpatterns += [
     re_path(r'^styles/(?P<path>.*)$', serve, {
         'document_root': os.path.join(settings.BASE_DIR, 'frontend', 'styles'),
@@ -49,13 +44,11 @@ urlpatterns += [
     }),
 ]
 
-# Для всех остальных путей (SPA маршрутизация) - отдаём index.html
 urlpatterns += [
     re_path(r'^(?!admin|api|swagger|redoc|styles|scripts|images).*$', 
             TemplateView.as_view(template_name='index.html')),
 ]
 
-# В режиме разработки обслуживаем медиа файлы
 if settings.DEBUG:
     from django.conf.urls.static import static
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
